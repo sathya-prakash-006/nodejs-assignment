@@ -2,8 +2,11 @@ const express = require("express");
 const user = require("../controllers/user-controller");
 const { body } = require("express-validator");
 
+// const checkDuplicateEmail = require("../middlewares/verifySignUp");
+
 const router = express.Router();
 
+// SIGNUP
 router.post(
   "/auth/signup",
   body("fullname")
@@ -15,6 +18,8 @@ router.post(
     .withMessage("Must be at least 6 characters "),
   user.signup
 );
+
+// SIGNIN
 router.post(
   "/auth/sigin",
   body("email").isEmail({ min: 3 }).withMessage("Should be valid email"),
