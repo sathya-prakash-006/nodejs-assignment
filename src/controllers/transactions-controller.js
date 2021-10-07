@@ -62,3 +62,8 @@ exports.getTransactions = (req, res) => {
       });
     });
 };
+
+// Get transactions based on page , query
+exports.getTransactionsByPagination = (req, res) => {
+  
+};
