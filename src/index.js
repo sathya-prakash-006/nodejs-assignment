@@ -42,6 +42,8 @@ app.use("/api/csv", csvRouter);
 
 // Creating relationships
 // One to One (User and Summary)
+
+// User to Summary (One to One Relation)
 User.hasOne(Summary, {
   foreignKey: {
     type: Sequelize.INTEGER,
@@ -51,6 +53,7 @@ User.hasOne(Summary, {
 });
 Summary.belongsTo(User);
 
+// User to Transaction ( One to Many Relation)
 User.hasMany(Transaction, {
   foreignKey: {
     type: Sequelize.INTEGER,
