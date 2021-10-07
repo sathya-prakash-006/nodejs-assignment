@@ -47,6 +47,9 @@ exports.getSummaryById = async (req, res) => {
         id: userId,
       },
     });
+    if (!profile) {
+      return res.status(404).json("User does't exist");
+    }
 
     return res.status(201).json({ user: profile, summary: user });
   } catch (error) {
