@@ -13,4 +13,11 @@ router.get(
   csvController.getTransactions
 );
 
+// to get transactions by pagiination
+
+router.get(
+  "/transactionsbypage/:id",
+  csvController.getTransactionsByPagination
+);
+
 module.exports = router;

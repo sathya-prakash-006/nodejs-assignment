@@ -1,8 +1,6 @@
 const Transaction = require("../models/transaction-model");
-
 const fs = require("fs");
 const csv = require("fast-csv");
-// const CsvParser = require("json2csv").Parser;
 
 exports.upload = async (req, res) => {
   try {
@@ -12,7 +10,6 @@ exports.upload = async (req, res) => {
 
     let transactions = [];
     let path = __basedir + "/downloads/" + req.file.filename;
-
     fs.createReadStream(path)
       .pipe(csv.parse({ headers: true }))
       .on("error", (error) => {
@@ -63,7 +60,28 @@ exports.getTransactions = (req, res) => {
     });
 };
 
-// Get transactions based on page , query
+
+// Get transactio details by pagination
 exports.getTransactionsByPagination = (req, res) => {
-  
+  const page = +req.query.page || 1;
+  const size = +req.query.size || 5;
+  const offset = (page - 1) * size;
+
+  Transaction.findAndCountAll({
+    where: {
+      userId: req.params.id,
+    },
+    limit: size,
+    offset: offset,
+    order: [["id", "ASC"]],
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving transactions.",
+      });
+    });
 };
