@@ -91,3 +91,25 @@ exports.signup = async function (req, res) {
     }
   }
 };
+
+// USER Profile update by Id (name and email update)
+
+exports.profileUpdate = (req, res) => {
+  const id = +req.params.id;
+  //console.log(id);
+
+  User.findByPk(id)
+    .then((user) => {
+      //console.log(user);
+      user.fullname = req.body.name || user.fullname;
+      user.email = req.body.email || user.email;
+
+      return user.save();
+    })
+    .then((result) => {
+      res.status(201).json("Updated Prifile Successfully");
+    })
+    .catch((err) => {
+      return res.status(400).json({ message: err });
+    });
+};

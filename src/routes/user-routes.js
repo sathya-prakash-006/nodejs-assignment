@@ -29,4 +29,7 @@ router.post(
   user.signin
 );
 
+// User profile update ( name and email )
+router.patch("/profile/update/:id", user.profileUpdate);
+
 module.exports = router;
