@@ -31,6 +31,30 @@ exports.createSummary = async (req, res) => {
     res.status(500).json({ error: error });
   }
 };
+/****************************************************************************** */
+
+//  Update summary by Id
+exports.summaryUpdate = (req, res) => {
+  const id = +req.params.id;
+  //console.log(id);
+
+  Summary.findByPk(id)
+    .then((summary) => {
+      //console.log(user);
+      summary.income = req.body.income;
+      summary.spends = req.body.spends;
+
+      return summary.save();
+    })
+    .then((result) => {
+      res.status(201).json("Updated Summary Successfully");
+    })
+    .catch((err) => {
+      return res.status(400).json({ message: err.message });
+    });
+};
+
+/****************************************************************************** */
 
 // Get account details by ID
 exports.getSummaryById = async (req, res) => {
@@ -57,6 +81,8 @@ exports.getSummaryById = async (req, res) => {
     console.log(error);
   }
 };
+
+/***************************************************************** */
 
 // Get All Summary for admins
 

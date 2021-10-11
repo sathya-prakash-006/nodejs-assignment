@@ -9,10 +9,15 @@ const secret = "secret";
 const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
+  // if (!token) {
+  //   return res.status(403).send({
+  //     message: "No token",
+  //   });
+  // }
   if (!token) {
-    return res.status(403).send({
-      message: "No token",
-    });
+    const error = new Error("Not Authenticated");
+    error.statusCode = 401;
+    throw error;
   }
 
   jwt.verify(token, secret, (err, decode) => {

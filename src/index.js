@@ -1,17 +1,18 @@
 const express = require("express");
 const cors = require("cors");
-const sequelize = require("./config/db-config");
+const sequelize = require("../src/config/db-config");
 const Sequelize = require("sequelize").Sequelize;
 const bodyParser = require("body-parser");
-const userRouter = require("./routes/user-routes");
-const userSummary = require("./routes/user-summary-routes");
-const userServices = require("./routes/services-routes");
-const User = require("./models/user.model");
-const Summary = require("./models/user-summary-model");
-const Transaction = require("./models/transaction-model");
-const Services = require("./models/services-model");
-const csvRouter = require("./routes/transactions");
+const userRouter = require("../src/routes/user-routes");
+const userSummary = require("../src/routes/user-summary-routes");
+const userServices = require("../src/routes/services-routes");
+const User = require("../src/models/user.model");
+const Summary = require("../src/models/user-summary-model");
+const Transaction = require("../src/models/transaction-model");
+const Services = require("../src/models/services-model");
+const csvRouter = require("../src/routes/transactions");
 const dotenv = require("dotenv");
+const { rateLimiterUsingThirdParty } = require("../src/middlewares/rateLimit");
 
 const app = express();
 dotenv.config();
@@ -32,6 +33,9 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
+// Limiting 2 requests per 10 seconds
+app.use(rateLimiterUsingThirdParty);
 
 // Signup and signin
 app.use("/api/", userRouter);

@@ -3,11 +3,15 @@ const summary = require("../controllers/summary-controller");
 const router = express.Router();
 const authJwt = require("../middlewares/auth-token");
 
-// SIGNUP
-router.post("/summary", summary.createSummary);
+// create Sumamry (only admin can create summary)
+router.post("/summary", authJwt.isAdmin, summary.createSummary);
 
-// SIGNIN
-router.get("/summary/:userId", summary.getSummaryById);
+// Get sumamry details
+router.get("/summary/:userId", authJwt.verifyToken, summary.getSummaryById);
+
+// Update Summary
+
+router.patch("/summary/update/:id", summary.summaryUpdate);
 
 // All summary for admin
 

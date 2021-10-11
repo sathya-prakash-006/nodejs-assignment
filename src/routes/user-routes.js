@@ -3,7 +3,6 @@ const user = require("../controllers/user-controller");
 const { body } = require("express-validator");
 const authJwt = require("../middlewares/auth-token");
 
-// const checkDuplicateEmail = require("../middlewares/verifySignUp");
 
 const router = express.Router();
 
