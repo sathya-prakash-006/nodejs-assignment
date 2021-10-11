@@ -57,3 +57,16 @@ exports.getSummaryById = async (req, res) => {
     console.log(error);
   }
 };
+
+// Get All Summary for admins
+
+exports.getAllSummary = async (req, res) => {
+  try {
+    const user = await Summary.findAndCountAll();
+
+    return res.status(200).json({ summary: user });
+  } catch (error) {
+    res.status(500).json({ error: error });
+    console.log(error);
+  }
+};

@@ -43,7 +43,7 @@ exports.upload = async (req, res) => {
 };
 
 // Get all the transactions based on user id
-exports.getTransactions = (req, res) => {
+exports.getTransactionsById = (req, res) => {
   Transaction.findAll({
     where: {
       userId: req.params.id,
@@ -60,7 +60,6 @@ exports.getTransactions = (req, res) => {
     });
 };
 
-
 // Get transactio details by pagination
 exports.getTransactionsByPagination = (req, res) => {
   const page = +req.query.page || 1;
@@ -76,6 +75,22 @@ exports.getTransactionsByPagination = (req, res) => {
     order: [["id", "ASC"]],
   })
     .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving transactions.",
+      });
+    });
+};
+
+// get all the transactions (for admin)
+
+exports.getAllTransactions = (req, res) => {
+  Transaction.findAndCountAll()
+    .then((data) => {
+      // console.log(data);
       res.send(data);
     })
     .catch((err) => {

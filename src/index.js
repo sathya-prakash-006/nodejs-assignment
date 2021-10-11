@@ -5,9 +5,11 @@ const Sequelize = require("sequelize").Sequelize;
 const bodyParser = require("body-parser");
 const userRouter = require("./routes/user-routes");
 const userSummary = require("./routes/user-summary-routes");
+const userServices = require("./routes/services-routes");
 const User = require("./models/user.model");
 const Summary = require("./models/user-summary-model");
 const Transaction = require("./models/transaction-model");
+const Services = require("./models/services-model");
 const csvRouter = require("./routes/transactions");
 const dotenv = require("dotenv");
 
@@ -40,6 +42,10 @@ app.use("/api/", userSummary);
 // uploading bulk csv files
 app.use("/api/csv", csvRouter);
 
+// services
+
+app.use("/api/", userServices);
+
 // Creating relationships
 // One to One (User and Summary)
 
@@ -62,6 +68,28 @@ User.hasMany(Transaction, {
   },
 });
 Transaction.belongsTo(User);
+
+User.hasOne(Services, {
+  foreignKey: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    onDelete: "CASCADE",
+  },
+});
+Services.belongsTo(User);
+
+// Many - Many relation ( User and services)
+// User.belongsToMany(Services, {
+//   through: "user_services",
+//   as: "services",
+//   foreignKey: "user_id",
+// });
+
+// Services.belongsToMany(User, {
+//   through: "user_services",
+//   as: "users",
+//   foreignKey: "services_id",
+// });
 
 // PORT
 const PORT = process.env.PORT || 2255;

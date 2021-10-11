@@ -1,6 +1,7 @@
 const express = require("express");
 const user = require("../controllers/user-controller");
 const { body } = require("express-validator");
+const authJwt = require("../middlewares/auth-token");
 
 // const checkDuplicateEmail = require("../middlewares/verifySignUp");
 
@@ -30,6 +31,15 @@ router.post(
 );
 
 // User profile update ( name and email )
-router.patch("/profile/update/:id", user.profileUpdate);
+router.patch("/profile/update/:id", authJwt.verifyToken, user.profileUpdate);
+
+// Get all the users (for admin)
+
+router.get(
+  "/all/users",
+  body("payRoll").isBoolean(),
+  authJwt.isAdmin,
+  user.getAllUsers
+);
 
 module.exports = router;
