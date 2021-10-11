@@ -7,7 +7,7 @@ const authJwt = require("../middlewares/auth-token");
 router.post("/summary", authJwt.isAdmin, summary.createSummary);
 
 // Get sumamry details
-router.get("/summary/:userId", authJwt.verifyToken, summary.getSummaryById);
+router.get("/summary/:id", authJwt.verifyToken, summary.getSummaryById);
 
 // Update Summary
 

@@ -58,7 +58,7 @@ exports.summaryUpdate = (req, res) => {
 
 // Get account details by ID
 exports.getSummaryById = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.params.id;
 
   try {
     const user = await Summary.findOne({
