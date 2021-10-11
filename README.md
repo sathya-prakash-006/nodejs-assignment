@@ -1,7 +1,5 @@
 # nodejs-assignment
 
-# assignment-1
-
 ## Create new account For USER
 - http://localhost:2255/api//auth/signup
 - By default role will be user.
