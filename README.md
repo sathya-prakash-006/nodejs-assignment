@@ -14,8 +14,8 @@
     "confirmpassword": "123456"
 }
 
-- If user email already exist then will get response as : "User already exists"
--  If password and confirmpassword are same then response is : "Password don't match."
+- If user email already exist then will get response as : "This login is already taken. Try another."
+-  If password and confirmpassword are same then response is : "Password not matching."
 -   If Register successful then user will get success message and token.
 
 ## Create new account For ADMIN
