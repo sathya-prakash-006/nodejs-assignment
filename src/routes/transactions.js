@@ -1,29 +1,29 @@
-const express = require("express");
-const router = express.Router();
-const csvController = require("../services/transaction");
-const upload = require("../middlewares/upload");
-const authJwt = require("../middlewares/auth-token");
-// To bulk upload csv files
-router.post("/upload", upload.single("file"), csvController.upload);
+module.exports = (app) => {
+  const express = require("express");
+  const router = express.Router();
+  const csvController = require("../services/transaction");
+  const upload = require("../middlewares/upload");
+  const authJwt = require("../middlewares/auth-token");
 
-// To get all the transactions of particular user
-router.get("/transactions/:id", csvController.getTransactionsById);
+  router.post("/upload", upload.single("file"), csvController.upload);
 
-// to get transactions by pagiination
+  // To get all the transactions of particular user
+  router.get("/transactions/:id", csvController.getTransactionsById);
 
-router.get(
-  "/transactionsbypage/:id",
-  authJwt.verifyToken,
-  csvController.getTransactionsByPagination
-);
+  // to get transactions by pagiination
 
-// Get all the transactions (for admin)
-router.get(
-  "/all/transactions",
-  authJwt.isAdmin,
-  csvController.getAllTransactions
-);
+  router.get(
+    "/transactionsbypage/:id",
+    authJwt.verifyToken,
+    csvController.getTransactionsByPagination
+  );
 
-module.exports = router;
+  // Get all the transactions (for admin)
+  router.get(
+    "/all/transactions",
+    authJwt.isAdmin,
+    csvController.getAllTransactions
+  );
 
-//  authJwt.verifyToken,
+  app.use("/api/csv", router);
+};

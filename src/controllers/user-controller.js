@@ -53,12 +53,12 @@ exports.signup = async function (req, res) {
       await user.save();
       res.status(201).json({ profile: user });
     } catch (err) {
-      return res.status(400).json({ message: err });
+      return res.status(400).json({ message: err.message });
     }
   }
 };
 
-/**************************************************************** */
+/***********************************************************************************************************/
 // SIGN IN
 
 exports.signin = async (req, res) => {
@@ -111,7 +111,7 @@ exports.signin = async (req, res) => {
   }
 };
 
-/**************************************************************** */
+/***************************************************************************************************/
 // USER Profile update by Id (name and email update)
 
 exports.profileUpdate = (req, res) => {
@@ -134,11 +134,10 @@ exports.profileUpdate = (req, res) => {
     });
 };
 
-/**************************************************************** */
+/*****************************************************************************************************/
 // get all the users (for admin)
 
 exports.getAllUsers = async function (req, res) {
-  // searching user exist or not using email
   const user = await User.findAndCountAll();
 
   try {
@@ -148,8 +147,24 @@ exports.getAllUsers = async function (req, res) {
   }
 };
 
-/************************************************************************************************ */
-// SIGN IN
+/********************************************************************************************************/
+// DELETE user by id  (only for admin)
+
+exports.deleteUser = async function (req, res) {
+  const id = req.params.id;
+
+  await User.destroy({
+    where: {
+      id: id,
+    },
+  });
+
+  try {
+    res.status(200).json("User deleted");
+  } catch (err) {
+    return res.status(500).json({ message: err });
+  }
+};
 
 // exports.signin = (req, res) => {
 //   const email = req.body.email;

@@ -3,14 +3,11 @@ const cors = require("cors");
 const sequelize = require("../src/config/db-config");
 const Sequelize = require("sequelize").Sequelize;
 const bodyParser = require("body-parser");
-const userRouter = require("../src/routes/user-routes");
-const userSummary = require("../src/routes/user-summary-routes");
-const userServices = require("../src/routes/services-routes");
 const User = require("../src/models/user.model");
 const Summary = require("../src/models/user-summary-model");
 const Transaction = require("../src/models/transaction-model");
 const Services = require("../src/models/services-model");
-const csvRouter = require("../src/routes/transactions");
+
 const dotenv = require("dotenv");
 const { rateLimiterUsingThirdParty } = require("../src/middlewares/rateLimit");
 
@@ -24,8 +21,6 @@ app.use(bodyParser.json());
 // parse the requests (content-type - x-www-form-urlencoded)
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// api's
-
 app.use(function (req, res, next) {
   res.header(
     "Access-Control-Allow-Headers",
@@ -34,25 +29,18 @@ app.use(function (req, res, next) {
   next();
 });
 
+
 // Limiting 2 requests per 10 seconds
 app.use(rateLimiterUsingThirdParty);
 
-// Signup and signin
-app.use("/api/", userRouter);
-
-// user summary
-app.use("/api/", userSummary);
-
-// uploading bulk csv files
-app.use("/api/csv", csvRouter);
-
-// services
-
-app.use("/api/", userServices);
+require("./routes/user-routes")(app);
+require("./routes/user-summary-routes")(app);
+require("./routes/transactions")(app);
+require("./routes/services-routes")(app);
 
 // Creating relationships
-// One to One (User and Summary)
 
+// One to One (User and Summary)
 // User to Summary (One to One Relation)
 User.hasOne(Summary, {
   foreignKey: {
@@ -109,3 +97,5 @@ sequelize
   .catch((err) => {
     console.log(err);
   });
+
+module.exports = app;

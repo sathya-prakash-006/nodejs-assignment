@@ -48,10 +48,10 @@ const verifyToken = (req, res, next) => {
 // checking admin or not
 const isAdmin = (req, res, next) => {
   const id = req.body.id;
-  console.log();
+  //console.log();
   User.findByPk(id)
     .then((user) => {
-      //console.log(user);
+      //console.log(user)
       if (user.role === "admin") {
         next();
         return;

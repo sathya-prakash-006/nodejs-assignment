@@ -84,7 +84,7 @@ exports.getSummaryById = async (req, res) => {
 
 /***************************************************************** */
 
-// Get All Summary for admins
+// Get All Summary ( for admins )
 
 exports.getAllSummary = async (req, res) => {
   try {
