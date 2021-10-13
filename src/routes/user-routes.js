@@ -28,21 +28,16 @@ module.exports = (app) => {
       .withMessage("Must be at least 6 characters "),
     user.signin
   );
-
   // User profile update ( name and email )
   router.patch("/profile/update/:id", authJwt.verifyToken, user.profileUpdate);
-
   // Get all the users (for admin)
-
   router.get(
     "/all/users",
     body("payRoll").isBoolean(),
     authJwt.isAdmin,
     user.getAllUsers
   );
-
   // delete ths user by id (only for admin)
-
   router.delete("/user/delete/:id", authJwt.isAdmin, user.deleteUser);
 
   app.use("/api", router);

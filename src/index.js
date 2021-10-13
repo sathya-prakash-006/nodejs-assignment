@@ -29,7 +29,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-
 // Limiting 2 requests per 10 seconds
 app.use(rateLimiterUsingThirdParty);
 
@@ -37,6 +36,10 @@ require("./routes/user-routes")(app);
 require("./routes/user-summary-routes")(app);
 require("./routes/transactions")(app);
 require("./routes/services-routes")(app);
+
+app.get("/api/welcome", (req, res) => {
+  res.status(200).send({ message: "Welcome to the banking app" });
+});
 
 // Creating relationships
 
@@ -69,19 +72,6 @@ User.hasOne(Services, {
   },
 });
 Services.belongsTo(User);
-
-// Many - Many relation ( User and services)
-// User.belongsToMany(Services, {
-//   through: "user_services",
-//   as: "services",
-//   foreignKey: "user_id",
-// });
-
-// Services.belongsToMany(User, {
-//   through: "user_services",
-//   as: "users",
-//   foreignKey: "services_id",
-// });
 
 // PORT
 const PORT = process.env.PORT || 2255;

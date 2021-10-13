@@ -2,7 +2,6 @@ const User = require("../models/user.model");
 const Services = require("../models/services-model");
 const { validationResult } = require("express-validator");
 
-// To subscribe services
 // 1 - currentAccount, payRoll, payments, wallet,investments, taxpayment, loans
 
 // Subscribe or unsubscribe the services
