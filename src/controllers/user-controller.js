@@ -106,8 +106,10 @@ exports.signin = async (req, res) => {
       acessToken: token,
       services: services,
     });
-  } catch (error) {
+  } catch (err) {
     res.status(500).send({ message: error.message });
+
+    return;
   }
 };
 
