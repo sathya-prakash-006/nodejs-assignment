@@ -42,6 +42,8 @@ const verifyToken = (req, res, next) => {
     // console.log(decode.id, req.params.id);
     return res.status(401).send("You cannot access another user credentials");
   }
+  req.params.id = decodedToken.id;
+
   next();
 };
 
