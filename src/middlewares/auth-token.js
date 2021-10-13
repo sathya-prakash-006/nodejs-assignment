@@ -8,6 +8,7 @@ const secret = "secret";
 
 const verifyToken = (req, res, next) => {
   // let token = req.headers["x-access-token"];
+  
 
   const token = req.get("Authorization");
 
