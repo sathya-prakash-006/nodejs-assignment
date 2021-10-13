@@ -8,9 +8,13 @@ module.exports = (app) => {
   router.post("/upload", upload.single("file"), csvController.upload);
 
   // To get all the transactions of particular user
-  router.get("/transactions/:id", csvController.getTransactionsById);
+  router.get(
+    "/transactions/:id",
+    authJwt.verifyToken,
+    csvController.getTransactionsById
+  );
 
-  // to get transactions by pagiination
+  // to get transactions by pagination
 
   router.get(
     "/transactionsbypage/:id",

@@ -21,7 +21,7 @@ module.exports = (app) => {
 
   // SIGNIN
   router.post(
-    "/auth/sigin",
+    "/auth/signin",
     body("email").isEmail({ min: 3 }).withMessage("Should be valid email"),
     body("password")
       .isLength({ min: 6 })
@@ -31,12 +31,7 @@ module.exports = (app) => {
   // User profile update ( name and email )
   router.patch("/profile/update/:id", authJwt.verifyToken, user.profileUpdate);
   // Get all the users (for admin)
-  router.get(
-    "/all/users",
-    body("payRoll").isBoolean(),
-    authJwt.isAdmin,
-    user.getAllUsers
-  );
+  router.get("/all/users", authJwt.isAdmin, user.getAllUsers);
   // delete ths user by id (only for admin)
   router.delete("/user/delete/:id", authJwt.isAdmin, user.deleteUser);
 

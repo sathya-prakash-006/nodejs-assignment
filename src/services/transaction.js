@@ -63,7 +63,7 @@ exports.getTransactionsById = (req, res) => {
 // Get transactio details by pagination
 exports.getTransactionsByPagination = (req, res) => {
   const page = +req.query.page || 1;
-  const size = +req.query.size || 5;
+  const size = +req.query.size || 2;
   const offset = (page - 1) * size;
 
   Transaction.findAndCountAll({

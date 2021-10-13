@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize").Sequelize;
-require('dotenv').config();
-
+require("dotenv").config();
 
 // connection pool
 const sequelize = new Sequelize("bank_model", "root", "4Sn14ec066", {

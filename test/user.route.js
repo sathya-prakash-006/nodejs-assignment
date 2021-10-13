@@ -41,7 +41,7 @@ describe("LOGIN", () => {
       .send(user)
       .end((err, response) => {
         response.body.should.be.a("object");
-        //expect(res.status).to.be.equal(200)
+
         done();
       });
   });
