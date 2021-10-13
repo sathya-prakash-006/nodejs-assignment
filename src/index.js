@@ -1,15 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-const sequelize = require("../src/config/db-config");
+const sequelize = require("./config/db-config");
 const Sequelize = require("sequelize").Sequelize;
 const bodyParser = require("body-parser");
-const User = require("../src/models/user.model");
-const Summary = require("../src/models/user-summary-model");
-const Transaction = require("../src/models/transaction-model");
-const Services = require("../src/models/services-model");
-
+const User = require("./models/user.model");
+const Summary = require("./models/user-summary-model");
+const Transaction = require("./models/transaction-model");
+const Services = require("./models/services-model");
 const dotenv = require("dotenv");
-const { rateLimiterUsingThirdParty } = require("../src/middlewares/rateLimit");
+// request limiting middleware
+const { rateLimiterUsingThirdParty } = require("./middlewares/rateLimit");
 
 const app = express();
 dotenv.config();
