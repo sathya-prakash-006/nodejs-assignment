@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const sequelize = require("./config/db-config");
 const Sequelize = require("sequelize").Sequelize;
 const bodyParser = require("body-parser");
@@ -10,11 +11,14 @@ const Services = require("./models/services-model");
 const dotenv = require("dotenv");
 // request limiting middleware
 const { rateLimiterUsingThirdParty } = require("./middlewares/rateLimit");
+const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
 dotenv.config();
 
 global.__basedir = __dirname + "/..";
+
+// Cross origin resource sharing
 app.use(cors());
 // Parse the requests(content-type- application/json)
 app.use(bodyParser.json());
@@ -37,9 +41,24 @@ require("./routes/user-summary-routes")(app);
 require("./routes/transactions")(app);
 require("./routes/services-routes")(app);
 
-app.get("/api/welcome", (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).send({ message: "Welcome to the banking app" });
 });
+
+// 
+app.all("*", (req, res) => {
+  res.status(404);
+  if (req.accepts("html")) {
+    res.sendFile(path.join(__dirname, "views", "404.html"));
+  } else if (req.accepts("json")) {
+    res.json({ error: "404 Not Found" });
+  } else {
+    res.type("txt").send("404 Not Found");
+  }
+});
+
+// error handler
+app.use(errorHandler);
 
 // Creating relationships
 
