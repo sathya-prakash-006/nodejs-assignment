@@ -1,6 +1,7 @@
 const Transaction = require("../models/transaction-model");
 const fs = require("fs");
 const csv = require("fast-csv");
+const { StatusCodes } = require("http-status-codes");
 
 exports.upload = async (req, res) => {
   try {
@@ -21,7 +22,7 @@ exports.upload = async (req, res) => {
       .on("end", () => {
         Transaction.bulkCreate(transactions)
           .then(() => {
-            res.status(200).send({
+            res.status(StatusCodes.CREATED).send({
               message:
                 "Successfully uploaded the file : " + req.file.originalname,
             });
@@ -50,7 +51,7 @@ exports.getTransactionsById = (req, res) => {
     },
   })
     .then((data) => {
-      res.send(data);
+      res.status(StatusCodes.OK).send(data);
     })
     .catch((err) => {
       res.status(500).send({
@@ -75,7 +76,7 @@ exports.getTransactionsByPagination = (req, res) => {
     order: [["id", "ASC"]],
   })
     .then((data) => {
-      res.send(data);
+      res.status(StatusCodes.OK).send(data);
     })
     .catch((err) => {
       res.status(500).send({
@@ -91,7 +92,7 @@ exports.getAllTransactions = (req, res) => {
   Transaction.findAndCountAll()
     .then((data) => {
       // console.log(data);
-      res.send(data);
+      res.status(StatusCodes.OK).send(data);
     })
     .catch((err) => {
       res.status(500).send({

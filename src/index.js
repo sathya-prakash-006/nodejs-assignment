@@ -1,15 +1,16 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
 const sequelize = require("./config/db-config");
 const Sequelize = require("sequelize").Sequelize;
-const bodyParser = require("body-parser");
 const User = require("./models/user.model");
 const Summary = require("./models/user-summary-model");
 const Transaction = require("./models/transaction-model");
 const Services = require("./models/services-model");
-const dotenv = require("dotenv");
-// request limiting middleware
+
+//  middlewares
 const { rateLimiterUsingThirdParty } = require("./middlewares/rateLimit");
 const errorHandler = require("./middlewares/errorHandler");
 
@@ -36,16 +37,16 @@ app.use(function (req, res, next) {
 // Limiting 2 requests per 10 seconds
 app.use(rateLimiterUsingThirdParty);
 
-require("./routes/user-routes")(app);
-require("./routes/user-summary-routes")(app);
-require("./routes/transactions")(app);
-require("./routes/services-routes")(app);
+require("./routes/user-routes")(app); // user routes
+require("./routes/user-summary-routes")(app); // summary routes
+require("./routes/transactions")(app); // tranasctions routes
+require("./routes/services-routes")(app); // services routes
 
 app.get("/", (req, res) => {
   res.status(200).send({ message: "Welcome to the banking app" });
 });
 
-// 
+//
 app.all("*", (req, res) => {
   res.status(404);
   if (req.accepts("html")) {

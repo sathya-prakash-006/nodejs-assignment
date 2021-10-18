@@ -7,6 +7,9 @@ let bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const secret = "secret";
 
+const { StatusCodes } = require("http-status-codes");
+const BadReqError = require("../errors/bad-request");
+
 // SIGN UP (REGISTRATION)
 
 exports.signup = async function (req, res) {
@@ -38,6 +41,7 @@ exports.signup = async function (req, res) {
     res.status(409).json({
       message: "This login is already taken. Try another.",
     });
+    // res.send(new BadReqError("Email already Exist"));
   } else {
     const password = req.body.password;
 
@@ -51,9 +55,11 @@ exports.signup = async function (req, res) {
 
     try {
       await user.save();
-      res.status(201).json({ profile: user });
+      res
+        .status(StatusCodes.CREATED)
+        .json({ profile: user, message: "welcome to QBanking" });
     } catch (err) {
-      return res.status(400).json({ message: err.message });
+      return res.status(500).json({ message: err.message });
     }
   }
 };
@@ -98,7 +104,7 @@ exports.signin = async (req, res) => {
       await services.save();
     }
 
-    return res.status(200).send({
+    return res.status(StatusCodes.OK).send({
       id: user.id,
       fullname: user.fullname,
       email: user.email,
@@ -129,10 +135,10 @@ exports.profileUpdate = (req, res) => {
       return user.save();
     })
     .then((result) => {
-      res.status(201).json("Updated Prifile Successfully");
+      res.status(StatusCodes.OK).json("Updated Prifile Successfully");
     })
     .catch((err) => {
-      return res.status(400).json({ message: err });
+      return res.status(500).json({ message: err });
     });
 };
 
@@ -143,9 +149,9 @@ exports.getAllUsers = async function (req, res) {
   const user = await User.findAndCountAll();
 
   try {
-    res.status(200).json({ users: user });
+    res.status(StatusCodes.OK).json({ users: user });
   } catch (err) {
-    return res.status(400).json({ message: err });
+    return res.status(500).json({ message: err });
   }
 };
 
@@ -162,7 +168,7 @@ exports.deleteUser = async function (req, res) {
   });
 
   try {
-    res.status(200).json("User deleted");
+    res.status(StatusCodes.OK).json("User deleted");
   } catch (err) {
     return res.status(500).json({ message: err });
   }

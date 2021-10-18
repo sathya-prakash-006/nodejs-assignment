@@ -1,27 +1,24 @@
 // Middleware which checks authorization. If token is not provided then user will be restricted to access
 // some of api's
-
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
+const UnAuthenticatedError = require("../errors/un-authenticated");
 
 const secret = "secret";
 
 const verifyToken = (req, res, next) => {
   // let token = req.headers["x-access-token"];
-  
 
   const token = req.get("Authorization");
 
-  if (!token) {
-    const error = new Error("Not Authenticated.....!");
-    error.statusCode = 401;
-    throw error;
-  }
   // if (!token) {
-  //   return res.status(401).send({
-  //     message: "No token",
-  //   });
+  //   const error = new Error("Not Authenticated.....!");
+  //   error.statusCode = 401;
+  //   throw error;
   // }
+  if (!token) {
+    throw new UnAuthenticatedError("Authentication Invalid");
+  }
   const newToken = token.split(" ")[1];
 
   let decodedToken;

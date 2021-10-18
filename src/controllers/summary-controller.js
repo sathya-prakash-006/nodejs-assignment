@@ -1,5 +1,7 @@
 const Summary = require("../models/user-summary-model");
 const User = require("../models/user.model");
+const { StatusCodes } = require("http-status-codes");
+const BadReqError = require("../errors/bad-request");
 
 // Create user account
 exports.createSummary = async (req, res) => {
@@ -26,7 +28,7 @@ exports.createSummary = async (req, res) => {
       userId: userId,
     });
 
-    res.status(201).json({ data: data });
+    res.status(StatusCodes.CREATED).json({ data: data });
   } catch (error) {
     res.status(500).json({ error: error });
   }
@@ -47,10 +49,10 @@ exports.summaryUpdate = (req, res) => {
       return summary.save();
     })
     .then((result) => {
-      res.status(201).json("Updated Summary Successfully");
+      res.status(StatusCodes.OK).json("Updated Summary Successfully");
     })
     .catch((err) => {
-      return res.status(400).json({ message: err.message });
+      return res.status(500).json({ message: err.message });
     });
 };
 
@@ -75,7 +77,7 @@ exports.getSummaryById = async (req, res) => {
       return res.status(404).json("User does't exist");
     }
 
-    return res.status(201).json({ user: profile, summary: user });
+    return res.status(StatusCodes.OK).json({ user: profile, summary: user });
   } catch (error) {
     res.status(500).json({ error: error });
     console.log(error);
@@ -90,7 +92,7 @@ exports.getAllSummary = async (req, res) => {
   try {
     const user = await Summary.findAndCountAll();
 
-    return res.status(200).json({ summary: user });
+    return res.status(StatusCodes.OK).json({ summary: user });
   } catch (error) {
     res.status(500).json({ error: error });
     console.log(error);

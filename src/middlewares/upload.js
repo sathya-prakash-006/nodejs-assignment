@@ -24,7 +24,7 @@ var storage = multer.diskStorage({
 var uploadFile = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5,  // 5mb LIMIT
+    fileSize: 1024 * 1024 * 5, // 5mb LIMIT
   },
   fileFilter: csvFilter,
 });

@@ -1,6 +1,8 @@
 const User = require("../models/user.model");
 const Services = require("../models/services-model");
 const { validationResult } = require("express-validator");
+const { StatusCodes } = require("http-status-codes");
+const BadReqError = require("../errors/bad-request");
 
 // 1 - currentAccount, payRoll, payments, wallet,investments, taxpayment, loans
 
@@ -22,10 +24,12 @@ exports.updateServices = async (req, res) => {
       return service.save();
     })
     .then((result) => {
-      res.status(201).json({ message: "Services updated", services: result });
+      res
+        .status(StatusCodes.OK)
+        .json({ message: "Services updated", services: result });
     })
     .catch((err) => {
-      return res.status(400).json({ message: err });
+      return res.status(500).json({ message: err });
     });
 };
 
@@ -40,8 +44,8 @@ exports.getAllUsersAndServices = async function (req, res) {
   const services = await Services.findByPk(id);
 
   try {
-    res.status(200).json({ users: user, services: services });
+    res.status(StatusCodes.OK).json({ users: user, services: services });
   } catch (err) {
-    return res.status(400).json({ message: err });
+    return res.status(500).json({ message: err });
   }
 };
