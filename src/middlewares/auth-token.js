@@ -11,14 +11,14 @@ const verifyToken = (req, res, next) => {
 
   const token = req.get("Authorization");
 
-  // if (!token) {
-  //   const error = new Error("Not Authenticated.....!");
-  //   error.statusCode = 401;
-  //   throw error;
-  // }
   if (!token) {
-    throw new UnAuthenticatedError("Authentication Invalid");
+    const error = new Error("No Token");
+    error.statusCode = 401;
+    throw error;
   }
+  // if (!token) {
+  //   return res.status(401).send("No Token");
+  // }
   const newToken = token.split(" ")[1];
 
   let decodedToken;

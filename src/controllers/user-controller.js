@@ -1,15 +1,15 @@
+// Schema's
 const User = require("../models/user.model");
 const Services = require("../models/services-model");
-const Sequelize = require("sequelize").Sequelize;
-
+//jwt and bcrypt
 let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");
+//middlewares
 const { validationResult } = require("express-validator");
-const secret = "secret";
-
 const { StatusCodes } = require("http-status-codes");
 const BadReqError = require("../errors/bad-request");
 
+const secret = "secret";
 // SIGN UP (REGISTRATION)
 
 exports.signup = async function (req, res) {

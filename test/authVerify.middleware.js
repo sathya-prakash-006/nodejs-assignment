@@ -11,9 +11,7 @@ describe("Auth middleware", function () {
       },
     };
     //req, res {}, next()
-    expect(verifyToken.bind(this, req, {}, () => {})).to.throw(
-      "Not Authenticated.....!"
-    );
+    expect(verifyToken.bind(this, req, {}, () => {})).to.throw("No Token");
   });
 
   it("it should throw an error if authorization header  is only one string", function () {
@@ -34,17 +32,4 @@ describe("Auth middleware", function () {
     };
     expect(verifyToken.bind(this, req, {}, () => {})).to.throw();
   });
-
-  // it("should yield a userId after decoding the token", function () {
-  //   var req = {
-  //     get: function (headername) {
-  //       return "Bearer xyz";
-  //     },
-  //   };
-  //   sinon.stub(jwt, "verify");
-  //   jwt.verify.returns({ id: "abc" });
-  //   verifyToken(req, {}, () => {});
-  //   expect(req).to.have.property("id");
-  //   jwt.verify.restore();
-  // });
 });
