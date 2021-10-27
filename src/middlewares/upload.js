@@ -15,8 +15,7 @@ var storage = multer.diskStorage({
     cb(null, __basedir + "/downloads/");
   },
   filename: (req, file, cb) => {
-    console.log(file.originalname);
-    //cb(null, new Date().toISOString() + file.originalname);
+    //console.log(file.originalname);
     cb(null, `${Date.now()}-transactions-${file.originalname}`);
   },
 });

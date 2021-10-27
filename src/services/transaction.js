@@ -2,6 +2,9 @@ const Transaction = require("../models/transaction-model");
 const fs = require("fs");
 const csv = require("fast-csv");
 const { StatusCodes } = require("http-status-codes");
+const { deleteFile } = require("../util/file");
+
+// upload the csv file
 
 exports.upload = async (req, res) => {
   try {
@@ -34,6 +37,8 @@ exports.upload = async (req, res) => {
             });
           });
       });
+    // delete file once its pushed to database
+    deleteFile(path);
   } catch (error) {
     //console.log(error);
     res.status(500).send({
